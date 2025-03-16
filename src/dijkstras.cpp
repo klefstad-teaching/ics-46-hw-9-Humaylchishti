@@ -8,10 +8,11 @@ struct Node {
 
 vector<int> dijkstra_shortest_path(const Graph& G, int source, vector<int>& previous) {
     int n = G.size();
-    vector<int> distance(n, INF); // Distance array
-    vector<bool> visited(n, false); // Visited array
+    vector<int> distance(n, INF); 
+    previous.assign(n, -1)
+    vector<bool> visited(n, false); 
 
-    priority_queue<Node, vector<Node>, greater<Node>> pq; // Min-heap priority queue
+    priority_queue<Node, vector<Node>, greater<Node>> pq; 
     pq.push(Node(source, 0));
     distance[source] = 0;
 
@@ -22,12 +23,12 @@ vector<int> dijkstra_shortest_path(const Graph& G, int source, vector<int>& prev
         int u = current.vertex;
 
         if (visited[u]) {
-            continue; // Skip if already visited
+            continue; 
         }
 
         visited[u] = true;
 
-        // Explore neighbors of u
+        
         for (const Edge& e : G[u]) {
             int v = e.dst;
             int weight = e.weight;
@@ -40,25 +41,24 @@ vector<int> dijkstra_shortest_path(const Graph& G, int source, vector<int>& prev
         }
     }
 
-    return distance; // Return the final distances
+    return distance; 
 }
 
 vector<int> extract_shortest_path(const vector<int>& distances, const vector<int>& previous, int destination) {
     vector<int> path;
 
     if (distances[destination] == INF) {
-        return path;  // Return an empty path if destination is unreachable
+        return path; 
     }
     
     int current = destination;
 
-    // Trace the path from destination to source
+    
     while (current != -1) {
         path.push_back(current);
         current = previous[current];
     }
 
-    // Manually reverse the path without using the reverse function
     vector<int> reversed_path;
     for (int i = path.size() - 1; i >= 0; --i) {
         reversed_path.push_back(path[i]);
